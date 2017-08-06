@@ -14,9 +14,6 @@ type Widget struct {
 
 // Validate a widget
 func (w Widget) Validate() error {
-	if w.ID == 0 {
-		return errors.New("id is a required field and must not be 0")
-	}
 	if w.Name == "" {
 		return errors.New("name is a required field and must not be empty string")
 	}

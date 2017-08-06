@@ -11,9 +11,6 @@ type User struct {
 
 // Validate a user
 func (u User) Validate() error {
-	if u.ID == 0 {
-		return errors.New("id is a required field and must not be 0")
-	}
 	if u.Name == "" {
 		return errors.New("name is a required field and must not be empty string")
 	}

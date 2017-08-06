@@ -27,17 +27,6 @@ func TestCreateWidget(t *testing.T) {
 	}
 }
 
-func TestCreateWidgetFailMissingId(t *testing.T) {
-	w := widget.Widget{
-		Name:  widgetFixtureName,
-		Color: widgetFixtureColor,
-		Price: widgetFixturePrice,
-	}
-	if err := w.Validate(); err == nil {
-		t.Error("Should not create a valid widget without ID")
-	}
-}
-
 func TestCreateWidgetFailMissingName(t *testing.T) {
 	w := widget.Widget{
 		ID:    widgetFixtureID,
