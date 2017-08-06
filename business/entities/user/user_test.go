@@ -17,13 +17,6 @@ func TestCreateUser(t *testing.T) {
 	}
 }
 
-func TestCreateUserFailMissingId(t *testing.T) {
-	u := user.User{Name: userFixtureName, Gravatar: userFixtureGravatar}
-	if err := u.Validate(); err == nil {
-		t.Error("Should not create a valid user without ID")
-	}
-}
-
 func TestCreateUserFailMissingName(t *testing.T) {
 	u := user.User{ID: 1, Gravatar: userFixtureGravatar}
 	if err := u.Validate(); err == nil {
