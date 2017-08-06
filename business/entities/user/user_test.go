@@ -6,9 +6,9 @@ import (
 )
 
 // Fixtures for user data
-var userFixtureID = 1
-var userFixtureName = "Danilo Jun"
-var userFixtureGravatar = "https://d.js/gravatar"
+const userFixtureID = 1
+const userFixtureName = "Danilo Jun"
+const userFixtureGravatar = "https://d.js/gravatar"
 
 func TestCreateUser(t *testing.T) {
 	u := user.User{ID: userFixtureID, Name: userFixtureName, Gravatar: userFixtureGravatar}
