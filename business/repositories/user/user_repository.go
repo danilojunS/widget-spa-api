@@ -1,11 +1,11 @@
-package user
+package userRepo
 
 import (
 	"github.com/danilojunS/widgets-spa-api/business/entities/user"
 )
 
 var records []user.User
-var lastInsertedID int
+var lastInsertedID = 1
 
 // Create a user
 func Create(u user.User) (int, error) {
@@ -49,4 +49,10 @@ func Delete(u user.User) (int, error) {
 		}
 	}
 	return u.ID, nil
+}
+
+// Clear all users
+func Clear() error {
+	records = []user.User{}
+	return nil
 }
