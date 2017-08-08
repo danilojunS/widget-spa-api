@@ -15,6 +15,7 @@ func StartServer() error {
 
 	r.HandleFunc("/widgets", handlers.WidgetGet).Methods("GET")
 	r.HandleFunc("/widgets/{id}", handlers.WidgetGetByID).Methods("GET")
+	r.HandleFunc("/widgets", handlers.WidgetPost).Methods("POST")
 
 	return http.ListenAndServe(":4000", r)
 }

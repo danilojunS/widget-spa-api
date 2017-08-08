@@ -56,3 +56,37 @@ func WidgetGetByID(w http.ResponseWriter, req *http.Request) {
 		InternalError(w, "")
 	}
 }
+
+// WidgetPost handler
+func WidgetPost(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "text/plain")
+
+	var wr WidgetRequest
+	decoder := json.NewDecoder(req.Body)
+	if err := decoder.Decode(&wr); err != nil {
+		ValidationError(w, "invalid body payload")
+		return
+	}
+	defer req.Body.Close()
+
+	_, err := useCases.CreateWidget(wr.Name, wr.Color, wr.Price, wr.Inventory, wr.Melts)
+	if err != nil {
+		InternalError(w, "")
+		return
+	}
+
+	_, err = w.Write([]byte("added!"))
+	if err != nil {
+		panic(err)
+	}
+}
+
+// WidgetRequest request for widget creation/update
+type WidgetRequest struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Color     string `json:"color"`
+	Price     string `json:"price"`
+	Inventory int    `json:"inventory"`
+	Melts     bool   `json:"melts"`
+}
