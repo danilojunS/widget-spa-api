@@ -15,6 +15,11 @@ var createdUserID int
 var createdUser user.User
 var updatedUser user.User
 
+func TestSetup(t *testing.T) {
+	err := userRepo.Clear()
+	utils.CheckError(err)
+}
+
 func TestUserCreate(t *testing.T) {
 	u := user.User{Name: userFixtureName, Gravatar: userFixtureGravatar}
 	var err error

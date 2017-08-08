@@ -8,7 +8,7 @@ var records []user.User
 var lastInsertedID = 1
 
 // Create a user
-func Create(u user.User) (int, error) {
+func CreateMock(u user.User) (int, error) {
 	u.ID = lastInsertedID
 	lastInsertedID++
 	records = append(records, u)
@@ -16,7 +16,7 @@ func Create(u user.User) (int, error) {
 }
 
 // Read users
-func Read(id int) ([]user.User, error) {
+func ReadMock(id int) ([]user.User, error) {
 	if id == 0 {
 		return records, nil
 	}
@@ -32,7 +32,7 @@ func Read(id int) ([]user.User, error) {
 }
 
 // Update user
-func Update(u user.User) (int, error) {
+func UpdateMock(u user.User) (int, error) {
 	for i, r := range records {
 		if r.ID == u.ID {
 			records[i] = u
@@ -42,7 +42,7 @@ func Update(u user.User) (int, error) {
 }
 
 // Delete user
-func Delete(u user.User) (int, error) {
+func DeleteMock(u user.User) (int, error) {
 	for i, r := range records {
 		if r.ID == u.ID {
 			records = append(records[:i], records[i+1:]...)
@@ -52,7 +52,7 @@ func Delete(u user.User) (int, error) {
 }
 
 // Clear all users
-func Clear() error {
+func ClearMock() error {
 	records = []user.User{}
 	return nil
 }

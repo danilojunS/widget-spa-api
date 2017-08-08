@@ -20,6 +20,11 @@ var createdWidgetID int
 var createdWidget widget.Widget
 var updatedWidget widget.Widget
 
+func TestSetup(t *testing.T) {
+	err := widgetRepo.Clear()
+	utils.CheckError(err)
+}
+
 func TestWidgetCreate(t *testing.T) {
 	u := widget.Widget{
 		Name:      widgetFixtureName,
