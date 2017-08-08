@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  title: Widgets SPA API
+  description: Backend API for the widgets-spa project.
+  version: 1.0.0
+
+servers:
+  - url: "http://localhost:4000/"
+    description: "localhost (development) endpoint"
+
+paths:
+  /users:
+    get:
+      tags:
+        - "user"
+      summary: Returns a list of users.
+      responses:
+        "200":
+          description: A JSON array of users
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "500":
+          description: Internal server error.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/InternalError"
+
+  /users/{id}:
+    get:
+      tags:
+        - "user"
+      summary: Returns a user by ID.
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        schema:
+            type: integer
+      responses:
+        "200":
+          description: A user with the specified ID.
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+        "500":
+          description: Internal server error.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/InternalError"
+
+  /widgets:
+    get:
+      tags:
+        - "widget"
+      summary: Returns a list of widgets.
+      responses:
+        "200":
+          description: A JSON array of widgets
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Widget"
+        "500":
+          description: Internal server error.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/InternalError"
+    post:
+      tags:
+        - "widget"
+      summary: Creates a widget.
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                color:
+                  type: string
+                price:
+                  type: string
+                inventory:
+                  type: integer
+                melts:
+                  type: boolean
+              required:
+                - name
+                - color
+                - price
+                - inventory
+                - melts
+      responses:
+        "201":
+          description: Widget added with success.
+          content:
+            "text/plain":
+              schema:
+                type: string
+                example: "added!"
+        "400":
+          description: Parameters validation error.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "500":
+          description: Internal server error.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/InternalError"
+
+  /widgets/{id}:
+    get:
+      tags:
+        - "widget"
+      summary: Returns a widget by ID.
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the widget"
+        required: true
+        schema:
+            type: integer
+      responses:
+        "200":
+          description: A widget with the specified ID.
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Widget"
+        "404":
+          description: Widget not found.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+        "500":
+          description: Internal server error.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/InternalError"
+    put:
+      tags:
+        - "widget"
+      summary: Updates a widget.
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the widget"
+        required: true
+        schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                color:
+                  type: string
+                price:
+                  type: string
+                inventory:
+                  type: integer
+                melts:
+                  type: boolean
+      responses:
+        "204":
+          description: Widget updated with success.
+        "400":
+          description: Parameters validation error.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "500":
+          description: Internal server error.
+          content:
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/InternalError"
+
+components:
+  schemas:
+    User:
+      properties:
+        id:
+          type: integer
+          example: 123
+        name:
+          type: string
+          example: "Danilo Jun"
+        gravatar:
+          type: string
+          example: "https://d.js/gravatar"
+    Widget:
+      properties:
+        id:
+          type: integer
+          example: 321
+        name:
+          type: string
+          example: "My widget"
+        color:
+          type: string
+          example: "blue"
+        price:
+          type: string
+          example: "9.99"
+        inventory:
+          type: integer
+          example: 42
+        melts:
+          type: boolean
+          example: true
+    InternalError:
+      type: string
+      example: Internal server error
+    NotFoundError:
+      type: string
+      example: Not Found
+    ValidationError:
+      type: string
+      example: ".name required"

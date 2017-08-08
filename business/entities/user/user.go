@@ -4,9 +4,9 @@ import "errors"
 
 // User business entity
 type User struct {
-	ID       int
-	Name     string
-	Gravatar string
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
+	Gravatar string `json:"gravatar"`
 }
 
 // Validate a user

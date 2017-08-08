@@ -4,12 +4,12 @@ import "errors"
 
 // Widget business entity
 type Widget struct {
-	ID        int
-	Name      string
-	Color     string
-	Price     string
-	Inventory int
-	Melts     bool
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Color     string `json:"color"`
+	Price     string `json:"price"`
+	Inventory int    `json:"inventory"`
+	Melts     bool   `json:"melts"`
 }
 
 // Validate a widget
