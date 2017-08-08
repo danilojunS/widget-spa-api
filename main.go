@@ -8,8 +8,9 @@ import (
 )
 
 func main() {
-	// create dummy users
+	// create dummy data
 	scripts.UserPopulate()
+	scripts.WidgetPopulate()
 
 	log.Println("Server listening on http://localhost:4000")
 
