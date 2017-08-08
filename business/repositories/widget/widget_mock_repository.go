@@ -8,7 +8,7 @@ var records []widget.Widget
 var lastInsertedID = 1
 
 // Create a widget
-func Create(w widget.Widget) (int, error) {
+func CreateMock(w widget.Widget) (int, error) {
 	w.ID = lastInsertedID
 	lastInsertedID++
 	records = append(records, w)
@@ -16,7 +16,7 @@ func Create(w widget.Widget) (int, error) {
 }
 
 // Read widgets
-func Read(id int) ([]widget.Widget, error) {
+func ReadMock(id int) ([]widget.Widget, error) {
 	if id == 0 {
 		return records, nil
 	}
@@ -32,7 +32,7 @@ func Read(id int) ([]widget.Widget, error) {
 }
 
 // Update widget
-func Update(w widget.Widget) (int, error) {
+func UpdateMock(w widget.Widget) (int, error) {
 	for i, r := range records {
 		if r.ID == w.ID {
 			records[i] = w
@@ -42,7 +42,7 @@ func Update(w widget.Widget) (int, error) {
 }
 
 // Delete widget
-func Delete(w widget.Widget) (int, error) {
+func DeleteMock(w widget.Widget) (int, error) {
 	for i, r := range records {
 		if r.ID == w.ID {
 			records = append(records[:i], records[i+1:]...)
@@ -52,7 +52,7 @@ func Delete(w widget.Widget) (int, error) {
 }
 
 // Clear all widgets
-func Clear() error {
+func ClearMock() error {
 	records = []widget.Widget{}
 	return nil
 }

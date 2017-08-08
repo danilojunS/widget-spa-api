@@ -51,6 +51,7 @@ func Read(id int) ([]user.User, error) {
 		var id int
 		var name string
 		var gravatar string
+
 		err = rows.Scan(&id, &name, &gravatar)
 		if err != nil {
 			return []user.User{}, err
