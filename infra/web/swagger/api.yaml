@@ -19,18 +19,16 @@ paths:
           description: A JSON array of users
           content:
             "application/json":
-              schema: 
+              schema:
                 type: array
-                items: 
+                items:
                   $ref: "#/components/schemas/User"
         "500":
           description: Internal server error.
           content:
-            "application/json":
+            "text/plain":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InternalError"
+                $ref: "#/components/schemas/InternalError"
 
   /users/{id}:
     get:
@@ -49,23 +47,21 @@ paths:
           description: A user with the specified ID.
           content:
             "application/json":
-              schema: 
+              schema:
                 $ref: "#/components/schemas/User"
         "404":
           description: User not found.
           content:
-            "application/json":
-              schema: 
-                type: object
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         "500":
           description: Internal server error.
           content:
-            "application/json":
+            "text/plain":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InternalError"
-          
+                $ref: "#/components/schemas/InternalError"
+
   /widgets:
     get:
       tags:
@@ -76,18 +72,16 @@ paths:
           description: A JSON array of widgets
           content:
             "application/json":
-              schema: 
+              schema:
                 type: array
-                items: 
+                items:
                   $ref: "#/components/schemas/Widget"
         "500":
           description: Internal server error.
           content:
-            "application/json":
+            "text/plain":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InternalError"
+                $ref: "#/components/schemas/InternalError"
     post:
       tags:
         - "widget"
@@ -99,6 +93,8 @@ paths:
             schema:
               type: object
               properties:
+                name:
+                  type: string
                 color:
                   type: string
                 price:
@@ -108,33 +104,32 @@ paths:
                 melts:
                   type: boolean
               required:
+                - name
                 - color
                 - price
+                - inventory
+                - melts
       responses:
-        "200":
-          description: The created widget.
+        "201":
+          description: Widget added with success.
           content:
-            "application/json":
-              schema: 
-                $ref: "#/components/schemas/Widget"
+            "text/plain":
+              schema:
+                type: string
+                example: "added!"
         "400":
           description: Parameters validation error.
           content:
-            "application/json":
+            "text/plain":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ValidationError"
+                $ref: "#/components/schemas/ValidationError"
         "500":
           description: Internal server error.
           content:
-            "application/json":
+            "text/plain":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InternalError"
-          
-      
+                $ref: "#/components/schemas/InternalError"
+
   /widgets/{id}:
     get:
       tags:
@@ -152,22 +147,20 @@ paths:
           description: A widget with the specified ID.
           content:
             "application/json":
-              schema: 
+              schema:
                 $ref: "#/components/schemas/Widget"
         "404":
           description: Widget not found.
           content:
-            "application/json":
-              schema: 
-                type: object
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         "500":
           description: Internal server error.
           content:
-            "application/json":
+            "text/plain":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InternalError"
+                $ref: "#/components/schemas/InternalError"
     put:
       tags:
         - "widget"
@@ -186,6 +179,8 @@ paths:
             schema:
               type: object
               properties:
+                name:
+                  type: string
                 color:
                   type: string
                 price:
@@ -195,29 +190,21 @@ paths:
                 melts:
                   type: boolean
       responses:
-        "200":
-          description: The updated widget.
-          content:
-            "application/json":
-              schema: 
-                $ref: "#/components/schemas/Widget"
+        "204":
+          description: Widget updated with success.
         "400":
           description: Parameters validation error.
           content:
-            "application/json":
-              schema: 
-                type: array
-                items:
-                  $ref: "#/components/schemas/ValidationError"
+            "text/plain":
+              schema:
+                $ref: "#/components/schemas/ValidationError"
         "500":
           description: Internal server error.
           content:
-            "application/json":
+            "text/plain":
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InternalError"
-          
+                $ref: "#/components/schemas/InternalError"
+
 components:
   schemas:
     User:
@@ -236,6 +223,9 @@ components:
         id:
           type: integer
           example: 321
+        name:
+          type: string
+          example: "My widget"
         color:
           type: string
           example: "blue"
@@ -249,12 +239,11 @@ components:
           type: boolean
           example: true
     InternalError:
-      properties:
-        error:
-          type: string
-          example: "Sorry! An unexpected error occured."
+      type: string
+      example: Internal server error
+    NotFoundError:
+      type: string
+      example: Not Found
     ValidationError:
-      properties:
-        error:
-          type: string
-          example: "Field 'name' must be a valid non-empty string."
+      type: string
+      example: ".name required"
