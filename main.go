@@ -1,14 +1,19 @@
 package main
 
 import (
+	"fmt"
+	config "github.com/danilojunS/widgets-spa-api/config"
 	web "github.com/danilojunS/widgets-spa-api/infra/web"
 	utils "github.com/danilojunS/widgets-spa-api/utils"
 	"log"
 )
 
 func main() {
-	log.Println("Server listening on http://localhost:4000")
+	config.Init()
 
+	port := config.Get().Port
+
+	log.Println(fmt.Sprint("Server listening on http://localhost:", port))
 	err := web.StartServer()
 	utils.CheckError(err)
 }
