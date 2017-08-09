@@ -28,3 +28,6 @@ var ValidationError = buildErrorResolver("Params validation error", http.StatusB
 
 // NotFoundError handles not found errors
 var NotFoundError = buildErrorResolver("Not found", http.StatusNotFound)
+
+// UnauthorizedError handles not found errors
+var UnauthorizedError = buildErrorResolver("Unauthorized", http.StatusUnauthorized)
