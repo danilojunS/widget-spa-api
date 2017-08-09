@@ -59,8 +59,7 @@ func secure(handler func(w http.ResponseWriter, req *http.Request)) func(w http.
 			return
 		}
 
-		claims, ok := token.Claims.(jwt.MapClaims)
-		fmt.Println(claims["foo"], claims["nbf"])
+		_, ok := token.Claims.(jwt.MapClaims)
 
 		if !ok || !token.Valid {
 			handlers.UnauthorizedError(w, "")
