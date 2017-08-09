@@ -12,13 +12,13 @@ import (
 func StartServer() error {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/users", handlers.UserGet).Methods("GET")
-	r.HandleFunc("/users/{id}", handlers.UserGetByID).Methods("GET")
+	r.HandleFunc("/users", secure(handlers.UserGet)).Methods("GET")
+	r.HandleFunc("/users/{id}", secure(handlers.UserGetByID)).Methods("GET")
 
-	r.HandleFunc("/widgets", handlers.WidgetGet).Methods("GET")
-	r.HandleFunc("/widgets/{id}", handlers.WidgetGetByID).Methods("GET")
-	r.HandleFunc("/widgets", handlers.WidgetPost).Methods("POST")
-	r.HandleFunc("/widgets/{id}", handlers.WidgetPut).Methods("PUT")
+	r.HandleFunc("/widgets", secure(handlers.WidgetGet)).Methods("GET")
+	r.HandleFunc("/widgets/{id}", secure(handlers.WidgetGetByID)).Methods("GET")
+	r.HandleFunc("/widgets", secure(handlers.WidgetPost)).Methods("POST")
+	r.HandleFunc("/widgets/{id}", secure(handlers.WidgetPut)).Methods("PUT")
 
 	r.HandleFunc("/token", handlers.TokenGet).Methods("GET")
 
