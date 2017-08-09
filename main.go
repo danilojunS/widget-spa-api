@@ -14,6 +14,6 @@ func main() {
 	port := config.Get().Port
 
 	log.Println(fmt.Sprint("Server listening on http://localhost:", port))
-	err := web.StartServer()
+	err := web.StartServer(port)
 	utils.CheckError(err)
 }
