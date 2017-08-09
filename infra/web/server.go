@@ -2,6 +2,7 @@ package web
 
 import (
 	handlers "github.com/danilojunS/widgets-spa-api/infra/web/handlers"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -17,6 +18,8 @@ func StartServer() error {
 	r.HandleFunc("/widgets/{id}", handlers.WidgetGetByID).Methods("GET")
 	r.HandleFunc("/widgets", handlers.WidgetPost).Methods("POST")
 	r.HandleFunc("/widgets/{id}", handlers.WidgetPut).Methods("PUT")
+
+	r.HandleFunc("/token", handlers.TokenGet).Methods("GET")
 
 	return http.ListenAndServe(":4000", r)
 }
