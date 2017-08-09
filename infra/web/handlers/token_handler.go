@@ -18,8 +18,7 @@ func TokenGet(w http.ResponseWriter, req *http.Request) {
 
 	mySigningKey := []byte(TokenSecret)
 
-	// oneDayInSeconds := int64(60 * 60 * 24)
-	oneDayInSeconds := int64(10)
+	oneDayInSeconds := int64(60 * 60 * 24)
 
 	claims := jwt.StandardClaims{
 		ExpiresAt: time.Now().Unix() + oneDayInSeconds,
