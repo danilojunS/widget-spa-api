@@ -2,14 +2,16 @@ package web
 
 import (
 	"fmt"
+	config "github.com/danilojunS/widgets-spa-api/config"
 	handlers "github.com/danilojunS/widgets-spa-api/infra/web/handlers"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"net/http"
+	"strconv"
 )
 
 // StartServer starts web server
-func StartServer() error {
+func StartServer(port int) error {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/users", secure(handlers.UserGet)).Methods("GET")
@@ -22,12 +24,17 @@ func StartServer() error {
 
 	r.HandleFunc("/token", handlers.TokenGet).Methods("GET")
 
-	return http.ListenAndServe(":4000", r)
+	return http.ListenAndServe(fmt.Sprint(":", strconv.Itoa(port)), r)
 }
 
 // middleware for token validation
 func secure(handler func(w http.ResponseWriter, req *http.Request)) func(w http.ResponseWriter, req *http.Request) {
 	return func(w http.ResponseWriter, req *http.Request) {
+		if !config.Get().Auth {
+			handler(w, req)
+			return
+		}
+
 		tokenString := req.Header.Get("Authorization")
 		if tokenString == "" {
 			handlers.UnauthorizedError(w, "")
@@ -39,7 +46,7 @@ func secure(handler func(w http.ResponseWriter, req *http.Request)) func(w http.
 				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 			}
 
-			return []byte(handlers.TokenSecret), nil
+			return []byte(config.Get().TokenSecret), nil
 		})
 		if err != nil {
 			errMessage := fmt.Sprint(err)
@@ -52,8 +59,7 @@ func secure(handler func(w http.ResponseWriter, req *http.Request)) func(w http.
 			return
 		}
 
-		claims, ok := token.Claims.(jwt.MapClaims)
-		fmt.Println(claims["foo"], claims["nbf"])
+		_, ok := token.Claims.(jwt.MapClaims)
 
 		if !ok || !token.Valid {
 			handlers.UnauthorizedError(w, "")

@@ -1,13 +1,11 @@
 package handlers
 
 import (
+	config "github.com/danilojunS/widgets-spa-api/config"
 	"github.com/dgrijalva/jwt-go"
 	"net/http"
 	"time"
 )
-
-// TokenSecret used to sign tokens
-const TokenSecret = "tell nobody"
 
 // TokenGet handler
 // this is a helper for creating tokens (for testing)
@@ -16,7 +14,7 @@ const TokenSecret = "tell nobody"
 func TokenGet(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 
-	mySigningKey := []byte(TokenSecret)
+	mySigningKey := []byte(config.Get().TokenSecret)
 
 	oneDayInSeconds := int64(60 * 60 * 24)
 
