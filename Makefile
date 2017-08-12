@@ -132,7 +132,7 @@ docker-compose-kill:
 # Populate the database inside the container with dummy data
 .PHONY: docker-compose-db-populate
 docker-compose-db-populate:
-	docker-compose exec postgres psql -d postgres -U postgres -a -f /scripts/populate-users-widgets.sql
+	docker-compose exec postgres psql -d postgres -U postgres -a -f /var/scripts/populate-users-widgets.sql
 
 ####################################################################
 ## POSTGRES
