@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 // StartServer starts web server
@@ -30,17 +31,36 @@ func StartServer(port int) error {
 // middleware for token validation
 func secure(handler func(w http.ResponseWriter, req *http.Request)) func(w http.ResponseWriter, req *http.Request) {
 	return func(w http.ResponseWriter, req *http.Request) {
+		// bypass authorization if config does not require it
 		if !config.Get().Auth {
 			handler(w, req)
 			return
 		}
 
-		tokenString := req.Header.Get("Authorization")
-		if tokenString == "" {
+		// authorization header is required
+		authHeader := req.Header.Get("Authorization")
+		if authHeader == "" {
 			handlers.UnauthorizedError(w, "")
 			return
 		}
 
+		// user is not sending the token type and token
+		// in the format: "Authorization: <type> <token>"
+		tokenWords := strings.Fields(authHeader)
+		if len(tokenWords) != 2 {
+			handlers.UnauthorizedError(w, "")
+			return
+		}
+
+		// only supported token type is "bearer"
+		tokenType := tokenWords[0]
+		if strings.ToLower(tokenType) != "bearer" {
+			handlers.UnauthorizedError(w, "")
+			return
+		}
+
+		// verify token
+		tokenString := tokenWords[1]
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -55,7 +75,7 @@ func secure(handler func(w http.ResponseWriter, req *http.Request)) func(w http.
 				return
 			}
 
-			handlers.InternalError(w, "")
+			handlers.UnauthorizedError(w, "")
 			return
 		}
 
