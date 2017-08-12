@@ -1,0 +1,23 @@
+version: '3'
+services:
+  widgets-spa-api:
+    build: .
+    ports:
+      - "${PORT:-4000}:${PORT:-4000}"
+    links:
+      - postgres
+    environment:
+      - APP_ENV=${APP_ENV:-development}
+      - PORT=${PORT:-4000}
+      - DB_HOST=postgres
+      - DB_USER=postgres
+    command: ${COMMAND:-"make start"}
+    volumes:
+      - .:/go/src/github.com/danilojunS/widgets-spa-api
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./scripts/sql:/scripts
+    

@@ -15,6 +15,7 @@ type Config struct {
 	TokenSecret string `env:"TOKEN_SECRET" envDefault:"super secret"`
 	DB          string `env:"DB" envDefault:"postgres"`
 	DBUser      string `env:"DB_USER"`
+	DBHost      string `env:"DB_HOST"`
 	DBPass      string `env:"DB_PASS"`
 	DBMock      bool   `env:"DB_MOCK" envDefault:"true"`
 }

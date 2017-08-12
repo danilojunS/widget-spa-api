@@ -4,12 +4,15 @@ import (
 	"encoding/json"
 	useCases "github.com/danilojunS/widgets-spa-api/business/use-cases"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
 )
 
 // UserGet handler
 func UserGet(w http.ResponseWriter, req *http.Request) {
+	log.Println("GET /users")
+
 	w.Header().Set("Content-Type", "application/json")
 
 	users, err := useCases.GetUsers()
@@ -34,6 +37,8 @@ func UserGet(w http.ResponseWriter, req *http.Request) {
 
 // UserGetByID handler
 func UserGetByID(w http.ResponseWriter, req *http.Request) {
+	log.Println("GET /users/{id}")
+
 	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(req)

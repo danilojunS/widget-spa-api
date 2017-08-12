@@ -4,12 +4,15 @@ import (
 	"encoding/json"
 	useCases "github.com/danilojunS/widgets-spa-api/business/use-cases"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
 )
 
 // WidgetGet handler
 func WidgetGet(w http.ResponseWriter, req *http.Request) {
+	log.Println("GET /widgets")
+
 	w.Header().Set("Content-Type", "application/json")
 
 	widgets, err := useCases.GetWidgets()
@@ -34,6 +37,8 @@ func WidgetGet(w http.ResponseWriter, req *http.Request) {
 
 // WidgetGetByID handler
 func WidgetGetByID(w http.ResponseWriter, req *http.Request) {
+	log.Println("GET /widgets/{id}")
+
 	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(req)
@@ -59,6 +64,8 @@ func WidgetGetByID(w http.ResponseWriter, req *http.Request) {
 
 // WidgetPost handler
 func WidgetPost(w http.ResponseWriter, req *http.Request) {
+	log.Println("POST /widgets")
+
 	w.Header().Set("Content-Type", "text/plain")
 
 	var wr WidgetRequest
@@ -83,6 +90,8 @@ func WidgetPost(w http.ResponseWriter, req *http.Request) {
 
 // WidgetPut handler
 func WidgetPut(w http.ResponseWriter, req *http.Request) {
+	log.Println("PUT /widgets")
+
 	w.Header().Set("Content-Type", "text/plain")
 
 	params := mux.Vars(req)
