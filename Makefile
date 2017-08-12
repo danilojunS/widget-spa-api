@@ -93,7 +93,6 @@ docker-watch:
 .PHONY: docker-test
 docker-test:
 	docker run \
-		-p ${PORT}:${PORT} \
 		widgets-spa-api make test
 
 ####################################################################
