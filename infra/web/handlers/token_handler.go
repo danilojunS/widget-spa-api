@@ -3,6 +3,7 @@ package handlers
 import (
 	config "github.com/danilojunS/widgets-spa-api/config"
 	"github.com/dgrijalva/jwt-go"
+	"log"
 	"net/http"
 	"time"
 )
@@ -12,6 +13,8 @@ import (
 // in a production app, the tokens would be generated elsewhere
 // or with some credentials logic
 func TokenGet(w http.ResponseWriter, req *http.Request) {
+	log.Println("GET /token")
+
 	w.Header().Set("Content-Type", "text/plain")
 
 	mySigningKey := []byte(config.Get().TokenSecret)
